@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { subscribeToDocumentChanges, TRANSLATE } from "./diagnostics";
-import { generate } from "./generate";
+import { generateFile } from "./generateFile";
+import { generateText } from "./generateText";
 
 export function activate(context: vscode.ExtensionContext) {
   const translateDiagnostics =
@@ -15,12 +16,19 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  const disposable = vscode.commands.registerCommand(
-    "generate-i18.generateTranslateJson",
-    generate
+  const disposableGenerateFile = vscode.commands.registerTextEditorCommand(
+    "generate-i18.generateTranslateFile",
+    generateFile
   );
 
-  context.subscriptions.push(disposable);
+  const disposableGenerateText = vscode.commands.registerTextEditorCommand(
+    "generate-i18.generateTranslateText",
+    generateText
+  );
+
+  context.subscriptions.push(
+    ...[disposableGenerateFile, disposableGenerateText]
+  );
 }
 
 export class TranslateInfo implements vscode.CodeActionProvider {
@@ -36,15 +44,12 @@ export class TranslateInfo implements vscode.CodeActionProvider {
   ): vscode.CodeAction[] {
     return context.diagnostics
       .filter((diagnostic) => diagnostic.code === TRANSLATE)
-      .map((diagnostic) =>
-        this.createCommandCodeAction(document, diagnostic, context)
-      );
+      .map((diagnostic) => this.createCommandCodeAction(document, diagnostic));
   }
 
   private createCommandCodeAction(
     document: vscode.TextDocument,
-    diagnostic: vscode.Diagnostic,
-    context: vscode.CodeActionContext
+    diagnostic: vscode.Diagnostic
   ): vscode.CodeAction {
     const fix = this.createFix(document, diagnostic);
 
@@ -71,7 +76,7 @@ export class TranslateInfo implements vscode.CodeActionProvider {
         new vscode.Position(range.start.line, range.start.character - 2),
         new vscode.Position(range.end.line, range.end.character + 2)
       ),
-      `$\{t(${text})}`
+      `${text}`
     );
 
     fix.diagnostics = [diagnostic];
