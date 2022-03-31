@@ -15,7 +15,7 @@ export async function refreshDiagnostics(
 
   let activeEditor = vscode.window.activeTextEditor!;
 
-  const regEx = /(?<=\"\[)[^\]\[\r\n]*(?=\]")/gm;
+  const regEx = /(?<=\|).+?(?=\|)/gm;
   const text = activeEditor.document.getText();
   let match;
 
@@ -23,6 +23,8 @@ export async function refreshDiagnostics(
     if (Boolean(!match[0])) {
       continue;
     }
+
+    if (match[0] === ".") continue;
     console.log("=====");
 
     const startPos = activeEditor.document.positionAt(match.index);
