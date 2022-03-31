@@ -4,7 +4,7 @@ import { getTranslate, language } from "./language";
 const fs = require("fs");
 const path = require("path");
 
-export const generate = async () => {
+export const generateFile = async () => {
   const textEditor = vscode.window.activeTextEditor;
 
   if (!textEditor) {
@@ -62,7 +62,7 @@ const handleTranslateJson = async (jsonData: any, toLanguage: string) => {
 
   for (let key in jsonData) {
     if (typeof jsonData[key] === "string")
-      jsonData[key] = await getTranslate(jsonData[key], toLanguage);
+      jsonData[key] = await getTranslate(jsonData[key], toLanguage, true);
     else if (typeof jsonData[key] === "object") {
       await handleTranslateJson(jsonData[key], toLanguage);
     }

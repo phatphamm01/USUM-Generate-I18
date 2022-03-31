@@ -1,14 +1,21 @@
 import * as vscode from "vscode";
 const translate = require("@vitalets/google-translate-api");
 
-export const getTranslate = (text: string, toLanguage: string) =>
+export const getTranslate = (
+  text: string,
+  toLanguage: string,
+  view?: boolean
+): Promise<string> =>
   new Promise((resolve, reject) => {
     translate(text, { to: toLanguage })
       .then((res: any) => {
         resolve(res.text);
-        vscode.window.showInformationMessage(
-          `  [TRANS] "${text}" --> "${res.text}"`
-        );
+
+        if (view) {
+          vscode.window.showInformationMessage(
+            `  [TRANS] "${text}" --> "${res.text}"`
+          );
+        }
       })
       .catch(reject);
   });
