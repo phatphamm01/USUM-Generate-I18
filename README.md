@@ -22,4 +22,16 @@ Convert json file from one language to another
 2. Enter the language you want to convert
 3. Enter the path to save the converted file
 
+### Features 3:
+
+Convert json file from one language to another
+
+##### Demo:
+
+![Multi-step sample](https://raw.githubusercontent.com/phatphamm01/USUM-Generate-I18/main/media/preview-feature-3.gif)
+
+##### Usage
+
+I'm too lazy :3
+
 ## Thank You! ❤️
