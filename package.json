@@ -28,6 +28,18 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "properties": {
+      "usum-generate-i18.linkFolder": {
+        "default": "usum",
+        "description": "Link folder local",
+        "type": "string"
+      },
+      "usum-generate-i18.language": {
+        "default": "en",
+        "description": "Language ?",
+        "type": "string"
+      }
+    },
     "commands": [
       {
         "command": "generate-i18.generateTranslateJson",

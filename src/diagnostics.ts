@@ -9,6 +9,8 @@ export async function refreshDiagnostics(
   doc: vscode.TextDocument,
   translateDiagnostics: vscode.DiagnosticCollection
 ) {
+  const { language } = vscode.workspace.getConfiguration("usum-generate-i18");
+
   const diagnostics: vscode.Diagnostic[] = [];
 
   let activeEditor = vscode.window.activeTextEditor!;
@@ -28,7 +30,7 @@ export async function refreshDiagnostics(
       match.index + match[0].length
     );
 
-    const en = await getTranslate(match[0], "en");
+    const en = await getTranslate(match[0], language);
 
     const key = (en as String).split(" ").join("-").toLocaleLowerCase();
 
