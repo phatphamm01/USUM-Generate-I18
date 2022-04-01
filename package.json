@@ -16,7 +16,7 @@
     "url": "https://github.com/phatphamm01/USUM-Generate-I18"
   },
   "icon": "media/usum-logo.png",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "engines": {
     "vscode": "^1.65.2"
   },

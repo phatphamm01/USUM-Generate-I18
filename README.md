@@ -24,7 +24,7 @@ Convert json file from one language to another
 
 ### Features 3:
 
-Convert json file from one language to another
+Convert json text from one language to another
 
 ##### Demo:
 
