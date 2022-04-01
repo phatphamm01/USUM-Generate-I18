@@ -22,17 +22,15 @@ export const generateText = async (values: any) => {
 
     let newArrValue: string[] = await translateInput(arrValue, lang!);
 
-    newArrValue = formatString(newArrValue);
-
     let [filename, ...arrObj] = newArrValue;
 
     const realPath = path.join(rootPath, linkFolder, lang, `${filename}.json`);
-
     const jsonValue: Record<string, any> = convertArrayToNestedOject(arrObj);
 
     const jsonData = readFile(realPath);
     const newJson = concatObject(jsonData, jsonValue);
 
+    newArrValue = formatStringArr(newArrValue);
     editEditor(document, range, newArrValue.join("."));
 
     const content = JSON.stringify(newJson, null, 2);
@@ -102,8 +100,12 @@ const translateInput = async (arrValue: string[], lang: string) => {
   );
 };
 
-const formatString = (arr: string[]) => {
-  return arr.map((value) => value.toLocaleLowerCase().split(" ").join("-"));
+const formatStringArr = (arr: string[]) => {
+  return arr.map((value) => formatString(value));
+};
+
+const formatString = (text: string) => {
+  return text.toLocaleLowerCase().split(" ").join("-");
 };
 
 const convertArrayToNestedOject = (arr: string[]) => {
@@ -111,7 +113,9 @@ const convertArrayToNestedOject = (arr: string[]) => {
     .reduce((arr: string[], value) => [value, ...arr], [])
     .reduce(
       (obj: any, value) =>
-        !Object.keys(obj).length ? { [value]: value } : { [value]: obj },
+        !Object.keys(obj).length
+          ? { [formatString(value)]: value }
+          : { [formatString(value)]: obj },
       {}
     );
 };

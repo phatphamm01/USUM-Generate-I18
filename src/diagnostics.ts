@@ -25,7 +25,6 @@ export async function refreshDiagnostics(
     }
 
     if (match[0] === ".") continue;
-    console.log("=====");
 
     const startPos = activeEditor.document.positionAt(match.index);
     const endPos = activeEditor.document.positionAt(
@@ -77,8 +76,6 @@ export function subscribeToDocumentChanges(
     doc: vscode.TextDocument,
     translateDiagnostics: vscode.DiagnosticCollection
   ) {
-    console.log(123);
-
     if (timeout) {
       clearTimeout(timeout);
       timeout = undefined;
